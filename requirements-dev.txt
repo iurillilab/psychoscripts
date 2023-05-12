@@ -1,0 +1,7 @@
+numpy
+pandas
+libusb1
+pyqtgraph
+PyQt5
+nidaqmx
+arrayqueues
