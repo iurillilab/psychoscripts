@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
 
-    //wait for serial input
+  //wait for serial input
   if(Serial.available() > 0){
     //read three inputs from serial port and get rid of separator char
     //parseInt reads a string input until it finds a non-numerical character
@@ -44,8 +44,7 @@ void loop() {
 
 
 def move_piezo(serial_port, final_position, step_interval_ms, pause_between_s):
-    """Move a servo moto using an arduino.
-    """
+    """Move a servo moto using an arduino."""
     # create the message
     mex = bytes([final_position, step_interval_ms, pause_between_s])
 

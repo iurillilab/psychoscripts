@@ -1,11 +1,12 @@
-import serial
 from time import sleep
+
+import serial
+
 from psychoscripts import defaults
 from psychoscripts.utils.servo_arduino import move_piezo
 
 # configure serial port
-servo_serial = serial.Serial(defaults.SERIAL_PORT_SERVO,
-                    defaults.BOUD_RATE)
+servo_serial = serial.Serial(defaults.SERIAL_PORT_SERVO, defaults.BOUD_RATE)
 sleep(defaults.SERIAL_CONN_PAUSE_S)  #  wait for serial connection to be established
 
 # move_piezo(servo_serial, 100, 2)

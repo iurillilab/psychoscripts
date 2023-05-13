@@ -59,8 +59,7 @@ void loop() {
 
 
 def move_piezo(serial_port, final_position, step_interval_ms, pause_between_s):
-    """Move a servo moto using an arduino.
-    """
+    """Move a servo moto using an arduino."""
     # create the message
     mex = bytes([final_position, step_interval_ms, pause_between_s])
 
