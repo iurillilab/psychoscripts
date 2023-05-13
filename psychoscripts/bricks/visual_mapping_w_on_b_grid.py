@@ -3,9 +3,11 @@ from pathlib import Path
 from psychopy import core, logging, visual
 from psychopy.visual.windowwarp import Warper
 
-logging.console.setLevel(logging.WARNING)
 from dataclasses import dataclass
 from datetime import datetime
+
+from psychoscripts import defaults
+from psychoscripts.utils.logging import create_psychopy_logger
 
 import numpy as np
 
@@ -15,32 +17,26 @@ EXP_NAME = "isi_sweeps"
 @dataclass
 class ExpParams:
     warper_correction: str = "spherical"
-    ball_distance: float = 25.0
-    n_reps: int = 5
+    n_reps: int = 1
     grid_n: int = 4
     screen_ratio: float = 16 / 9
 
 
 params = ExpParams()
 
-# Configure logger:
-file_tstamp = str(datetime.now().strftime("%Y.%m.%d-%H.%M.%S"))
-full_filename = f"{EXP_NAME}_{file_tstamp}.log"
-data_logger = logging.LogFile(
-    str(LOG_FOLDER / full_filename), level=logging.EXP, filemode="w"
-)
+data_logger = create_psychopy_logger()
 
 # Create a suitable psychopy window with some params:
 window = visual.Window(
     fullscr=True,
-    monitor=MONITOR,
+    monitor=defaults.MONITOR,
     useFBO=True,
     units="deg",
     color=(0, 0, 0),
-    screen=1,
+    screen=defaults.MONITOR_ID,
 )
 warper = Warper(window, warp=params.warper_correction)
-warper.dist_cm = params.ball_distance
+warper.dist_cm = defaults.MONITOR_DISTANCE
 warper.changeProjection(params.warper_correction)
 
 # Draw the stimuli and update the window
