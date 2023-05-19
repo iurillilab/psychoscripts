@@ -11,7 +11,7 @@ sleep(defaults.SERIAL_CONN_PAUSE_S)  #  wait for serial connection to be establi
 
 # move_piezo(servo_serial, 100, 2)
 
-move_piezo(servo_serial, 175, 2, 2)
+move_piezo(servo_serial, 100, 2, 1000)
 
 # close the serial port:
 servo_serial.close()

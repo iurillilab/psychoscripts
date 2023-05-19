@@ -1,20 +1,36 @@
 # Read a config file from the user home directory and use it to set the default values, if available
 import os
+import warnings
+from pathlib import Path
 
 # Data logging:
-# LOG_FOLDER = r"C:\Users\SNeurobiology\Desktop\jaw_opening"
-LOG_FOLDER = r"/Users/vigji/Desktop"
+LOG_FOLDER = Path(r"E:\Luigi")
+if not LOG_FOLDER.exists():
+    raise ValueError("LOG_FOLDER points to an invalid directory|")
 DEFAULT_TIMESTAMPING = "%Y.%m.%d-%H.%M.%S"
 try:
     MOUSE_ID = os.environ["MOUSE_ID"]
 except KeyError:
+    warnings.warn("No mouse ID set in the environment!", RuntimeWarning)
     MOUSE_ID = "no_mouse_id"
 
+# Corner logging:
+HEADER_PULSES_N = 10
+CORNER_COLORS = {False: (-1, -1, -1), True: (1, 1, 1)}
+CORNER_SQUARE_SIZE = (0.2, 0.2)
+CORNER_SQUARE_POS = (0.8, -0.75)
+N_REPS_LOGGING = 1
+AFTER_LOGGING_PAUSE_MS = 100
+
 # Visual stimuli:
-MONITOR = "Philips"
+MONITOR = "BENQ"
+MONITOR_ID = 0
+MONITOR_DISTANCE = 25.
+WARP_CORRECTION: str = "spherical"
+SCREEN_RATIO: float = 16 / 9
 
 # Serial connections
-SERIAL_PORT_OPTO = "COM28"
+SERIAL_PORT_OPTO = "COM18"
 SERIAL_PORT_SERVO = "COM29"
 BOUD_RATE = 9600
 

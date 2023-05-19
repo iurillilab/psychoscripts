@@ -7,19 +7,18 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from psychoscripts import defaults
-from psychoscripts.utils.logging import create_psychopy_logger
+from psychoscripts.utils.logging import create_psychopy_logger, CornerLogger
+from psychoscripts.utils.visual_screen import get_default_psychopy_win
 
 import numpy as np
 
-EXP_NAME = "isi_sweeps"
+EXP_NAME = __file__.split("/")[-1].split(".")[0]
 
 
 @dataclass
 class ExpParams:
-    warper_correction: str = "spherical"
     n_reps: int = 1
     grid_n: int = 4
-    screen_ratio: float = 16 / 9
 
 
 params = ExpParams()
@@ -27,26 +26,19 @@ params = ExpParams()
 data_logger = create_psychopy_logger()
 
 # Create a suitable psychopy window with some params:
-window = visual.Window(
-    fullscr=True,
-    monitor=defaults.MONITOR,
-    useFBO=True,
-    units="deg",
-    color=(0, 0, 0),
-    screen=defaults.MONITOR_ID,
-)
-warper = Warper(window, warp=params.warper_correction)
-warper.dist_cm = defaults.MONITOR_DISTANCE
-warper.changeProjection(params.warper_correction)
+window = get_default_psychopy_win()
+
+
+
 
 # Draw the stimuli and update the window
-square_size = (1 / params.grid_n, 1 / params.grid_n * params.screen_ratio)
+square_size = (1 / params.grid_n, 1 / params.grid_n * defaults.SCREEN_RATIO)
 patch = visual.Rect(window, size=square_size, color=(-1, -1, -1), units="norm")
 
+corner_logger = CornerLogger(window, data_logger)
+corner_logger.log_string(EXP_NAME)
 
-from scipy.signal import iirfilter
 
-# b, a = iirfilter(4, Wn=2.5, fs=100, btype="low", ftype="butter")
 pos = 0
 vel = 0
 starting_pos = 0
@@ -70,10 +62,16 @@ print(len(positions_x), len(positions_indices))
 
 dur = 0.5
 
-while trial_clock.getTime() < 500:
+idx = 0
+prev_idx = 0
+while trial_clock.getTime() < 10:
     idx = np.floor(trial_clock.getTime() / dur).astype(int)
+    if idx != prev_idx:
+        corner_logger.toggle_state()
+
     sorted_idx = sorting_vals[idx]
     patch.pos = (positions_x[sorted_idx], positions_y[sorted_idx])
+
     patch.draw()
     window.flip()
 

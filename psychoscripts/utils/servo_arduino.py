@@ -26,10 +26,10 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() >= 3) { // Check if 3 bytes are available
-    int finalLocation = Serial.read(); // Read the first byte
-    int delayPerDegreeMSec = Serial.read(); // Read the second byte
-    int delayBeforeGoingHomeSec = Serial.read(); // Read the second byte
+  if (Serial.available() > 0) {
+    int finalLocation = Serial.parseInt(); Serial.read();
+    int delayPerDegreeMSec = Serial.parseInt(); Serial.read();
+    int delayBeforeGoingHomeSec = Serial.parseInt(); Serial.read();
 
     // Move to final point:
     int currentpos = myservo.read();
@@ -42,7 +42,7 @@ void loop() {
     digitalWrite(servoMovingToward, LOW);
 
     // Pause:
-    delay(delayBeforeGoingHomeSec * 1000);
+    delay(delayBeforeGoingHomeSec);
 
     // Move back home:
     currentpos = myservo.read();
@@ -55,13 +55,19 @@ void loop() {
     digitalWrite(servoMovingHome, LOW);
   }
 }
+
 """
 
 
-def move_piezo(serial_port, final_position, step_interval_ms, pause_between_s):
+def move_piezo(serial_port, final_position, step_interval_ms, pause_between_ms):
     """Move a servo moto using an arduino."""
     # create the message
-    mex = bytes([final_position, step_interval_ms, pause_between_s])
+    # mex = bytes([final_position, step_interval_ms, pause_between_ms])
 
     # write to serial port:
-    serial_port.write(mex)
+    # serial_port.write(mex)
+
+    mex = f"{final_position};{step_interval_ms};{pause_between_ms}"
+
+    # write to serial port:
+    serial_port.write(bytes(mex, encoding="utf-8"))

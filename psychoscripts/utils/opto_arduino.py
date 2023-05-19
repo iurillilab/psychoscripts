@@ -3,10 +3,11 @@ Arduino firmware required:
 
 // Arduino_controlled_LASER_Stimulation
 
+int pulsePin = 9;
+
 void setup() {
   //start USB connection with the computer
   Serial.begin(9600);
-  delay(100);
 
 }
 
@@ -14,39 +15,38 @@ void loop() {
 
   //wait for serial input
   if(Serial.available() > 0){
+
     //read three inputs from serial port and get rid of separator char
     //parseInt reads a string input until it finds a non-numerical character
-    //from matlab, send input as a single string of the form "2000a8a"
-      int frequency = Serial.parseInt(); Serial.read();
-      int pulse_duration = Serial.parseInt(); Serial.read();
-      int stimulus_duration = Serial.parseInt(); Serial.read();
+    //from matlab/python, send input as a single string of the form eg "100;8;5000"
+    int frequency = Serial.parseInt(); Serial.read();
+    int pulseDurationMs = Serial.parseInt(); Serial.read();
+    long int stimulusDurationMs = Serial.parseInt(); Serial.read();
 
-      int starttime = millis();
-      int endtime = starttime;
-      int duration_off = (1000 / frequency) - pulse_duration;
+    int durationOff = (1000 / frequency) - pulseDurationMs;
+    long int elapsed_time = 0;
 
-      if (stimulus_duration > 0) {
-        while((endtime - starttime) <= stimulus_duration){
-        // Laser ON
-        digitalWrite(13, HIGH);
-        delay(pulse_duration);
+    int startTime = millis();
+    if (stimulusDurationMs > 0) {
+      while((millis() - startTime) <= stimulusDurationMs){
+      // Laser ON
+      digitalWrite(pulsePin, HIGH);
+      delay(pulseDurationMs);
 
-        digitalWrite(13, LOW);
-        delay(duration_off);
-
-        endtime = millis();
+      digitalWrite(pulsePin, LOW);
+      delay(durationOff);
       }
-      }
-
-      }
+    }
   }
+}
 """
 
 
-def move_piezo(serial_port, final_position, step_interval_ms, pause_between_s):
+def laser_pulses(serial_port, frequency, pulse_duration_ms, stim_len_s):
     """Move a servo moto using an arduino."""
     # create the message
-    mex = bytes([final_position, step_interval_ms, pause_between_s])
+
+    mex = f"{frequency};{pulse_duration_ms};{stim_len_s};"
 
     # write to serial port:
-    serial_port.write(mex)
+    serial_port.write(bytes(mex, encoding="utf-8"))
