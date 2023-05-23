@@ -3,8 +3,8 @@ from time import sleep
 import serial
 
 from psychoscripts import defaults
-from psychoscripts.utils.opto_arduino import logged_laser_pulses
 from psychoscripts.utils.logging import PsychopyLogger
+from psychoscripts.utils.opto_arduino import logged_laser_pulses
 
 logger = PsychopyLogger()
 logger.log_string("Started optotagging script")
@@ -20,4 +20,3 @@ logger.log_string("Opto pulses sent")
 
 # close the serial port:
 opto_serial.close()
-

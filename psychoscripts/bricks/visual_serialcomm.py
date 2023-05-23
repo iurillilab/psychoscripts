@@ -1,8 +1,8 @@
 from psychopy import core, visual
 
+from psychoscripts.utils.logging import CornerLogger, PsychopyLogger
 from psychoscripts.utils.visual_screen import get_default_psychopy_win
-from psychoscripts.utils.logging import PsychopyLogger
-from psychoscripts.utils.logging import CornerLogger
+
 EXP_NAME = "isi_sweeps"
 
 

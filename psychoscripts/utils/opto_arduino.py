@@ -26,7 +26,7 @@ void loop() {
     int durationOff = (1000 / frequency) - pulseDurationMs;
     long int elapsed_time = 0;
 
-    int startTime = millis();
+    long int startTime = millis();
     if (stimulusDurationMs > 0) {
       while((millis() - startTime) <= stimulusDurationMs){
       // Laser ON
@@ -41,6 +41,7 @@ void loop() {
 }
 """
 
+
 def _laser_pulses(serial_port, frequency, pulse_duration_ms, stim_len_s):
     """Send triggers for a train of optogenetic stimulation."""
     # create the message
@@ -50,7 +51,10 @@ def _laser_pulses(serial_port, frequency, pulse_duration_ms, stim_len_s):
     # write to serial port:
     serial_port.write(bytes(mex, encoding="utf-8"))
 
+
 def logged_laser_pulses(logger, serial_port, frequency, pulse_duration_ms, stim_len_s):
     """Send triggers for a train of optogenetic stimulation."""
-    logger.log_string(f"Opto pulses: {frequency} Hz, {pulse_duration_ms} ms, {stim_len_s} ms")
+    logger.log_string(
+        f"Opto pulses: {frequency} Hz, {pulse_duration_ms} ms, {stim_len_s} ms"
+    )
     _laser_pulses(serial_port, frequency, pulse_duration_ms, stim_len_s)

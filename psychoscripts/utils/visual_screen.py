@@ -1,12 +1,18 @@
-from psychopy.visual.windowwarp import Warper
 from psychopy import visual
+from psychopy.visual.windowwarp import Warper
 
 from psychoscripts import defaults
 
 
-def get_default_psychopy_win(fullscreen=True, monitor=defaults.MONITOR,
-                             use_fbo=True, units="deg", color=(0, 0, 0),
-                             screen=defaults.MONITOR_ID, warp=True):
+def get_default_psychopy_win(
+    fullscreen=defaults.FULLSCREEN,
+    monitor=defaults.MONITOR,
+    use_fbo=True,
+    units="deg",
+    color=(0, 0, 0),
+    screen=defaults.MONITOR_ID,
+    warp=True,
+):
     """Create a suitable psychopy window with default params."""
     window = visual.Window(
         fullscr=fullscreen,
@@ -26,7 +32,7 @@ def get_default_psychopy_win(fullscreen=True, monitor=defaults.MONITOR,
 def warp_win(window):
     """Warp the visual stimulus window."""
     warper = Warper(window, warp=defaults.WARP_CORRECTION)
-    warper.dist_cm = defaults.MONITOR_DISTANCE
+    warper.dist_cm = defaults.MONITOR_DISTANCE_CM
     warper.changeProjection(defaults.WARP_CORRECTION)
 
     return warper
