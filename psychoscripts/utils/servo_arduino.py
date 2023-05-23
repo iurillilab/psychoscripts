@@ -59,7 +59,7 @@ void loop() {
 """
 
 
-def move_piezo(serial_port, final_position, step_interval_ms, pause_between_ms):
+def _move_piezo(serial_port, final_position, step_interval_ms, pause_between_ms):
     """Move a servo moto using an arduino."""
     # create the message
     # mex = bytes([final_position, step_interval_ms, pause_between_ms])
@@ -67,7 +67,13 @@ def move_piezo(serial_port, final_position, step_interval_ms, pause_between_ms):
     # write to serial port:
     # serial_port.write(mex)
 
-    mex = f"{final_position};{step_interval_ms};{pause_between_ms}"
+    mex = f"{final_position};{step_interval_ms};{pause_between_ms};"
 
     # write to serial port:
     serial_port.write(bytes(mex, encoding="utf-8"))
+
+
+def logged_move_piezo(logger, serial_port, final_position, step_interval_ms, pause_between_ms):
+    """Move a servo moto using an arduino."""
+    logger.log_string(f"Piezo move: {final_position} pos, {step_interval_ms} ms steps, {pause_between_ms} ms before return")
+    _move_piezo(serial_port, final_position, step_interval_ms, pause_between_ms)

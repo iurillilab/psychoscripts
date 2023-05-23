@@ -36,7 +36,7 @@ square_size = (1 / params.grid_n, 1 / params.grid_n * defaults.SCREEN_RATIO)
 patch = visual.Rect(window, size=square_size, color=(-1, -1, -1), units="norm")
 
 corner_logger = CornerLogger(window, data_logger)
-corner_logger.log_string(EXP_NAME)
+corner_logger.log_string(EXP_NAME[:5])
 
 
 pos = 0
@@ -66,13 +66,18 @@ idx = 0
 prev_idx = 0
 while trial_clock.getTime() < 10:
     idx = np.floor(trial_clock.getTime() / dur).astype(int)
-    if idx != prev_idx:
-        corner_logger.toggle_state()
 
     sorted_idx = sorting_vals[idx]
     patch.pos = (positions_x[sorted_idx], positions_y[sorted_idx])
 
     patch.draw()
+
+    if idx != prev_idx:
+        corner_logger.toggle_state()
+        prev_idx = idx
+
+    corner_logger.patch.draw()
+
     window.flip()
 
 

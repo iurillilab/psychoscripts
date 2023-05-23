@@ -8,26 +8,36 @@ from psychopy import logging, visual
 from psychoscripts import defaults
 
 
-def create_psychopy_logger():
-    """Create a psychopy logger.
+class PsychopyLogger(logging.LogFile):
+    """Tiny wrapper around psychopy.logging.LogFile to make it more convenient to use."""
 
-    Returns:
-    --------
-        logging.LogFile: A psychopy logger.
-    """
-    file_tstamp = str(datetime.now().strftime(defaults.DEFAULT_TIMESTAMPING))
+    def __init__(self, level=logging.EXP, filemode="w", **kwargs):
+        """Create a psychopy logger.
 
-    # Get the name of the calling script:
-    frame = sys._getframe(1)  # caller's frame
-    namespace = frame.f_globals  # caller's globals
-    exp_name = Path(namespace["__file__"]).stem
-    print(exp_name)
+            Returns:
+            --------
+                logging.LogFile: A psychopy logger.
+            """
+        file_tstamp = str(datetime.now().strftime(defaults.DEFAULT_TIMESTAMPING))
 
-    full_filename = f"{exp_name}_{defaults.MOUSE_ID}_{file_tstamp}.log"
+        # Get the name of the calling script:
+        frame = sys._getframe(1)  # caller's frame
+        namespace = frame.f_globals  # caller's globals
+        exp_name = Path(namespace["__file__"]).stem
+        print(exp_name)
 
-    return logging.LogFile(
-        str(Path(defaults.LOG_FOLDER) / full_filename), level=logging.EXP, filemode="w"
-    )
+        folder = defaults.LOG_FOLDER / defaults.MOUSE_ID
+        folder.mkdir(parents=True, exist_ok=True)
+
+        full_filename = f"{file_tstamp}_{exp_name}_{defaults.MOUSE_ID}.log"
+
+        super().__init__(str(folder / full_filename), level=level, filemode=filemode, **kwargs)
+        self.log_string(f"Logfile created at {datetime.now().strftime(defaults.DEFAULT_TIMESTAMPING)}")
+
+    def log_string(self, string: str) -> None:
+        """Log a string to the logfile."""
+        logging.log(level=logging.EXP, msg=string)
+
 
 
 class CornerLogger:

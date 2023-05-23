@@ -12,7 +12,7 @@ try:
     MOUSE_ID = os.environ["MOUSE_ID"]
 except KeyError:
     warnings.warn("No mouse ID set in the environment!", RuntimeWarning)
-    MOUSE_ID = "no_mouse_id"
+    MOUSE_ID = "M0"# "no_mouse_id"
 
 # Corner logging:
 HEADER_PULSES_N = 10
