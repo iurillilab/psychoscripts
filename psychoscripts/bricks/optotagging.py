@@ -15,7 +15,7 @@ sleep(defaults.SERIAL_CONN_PAUSE_S)  # wait for serial connection to be establis
 
 # move_piezo(servo_serial, 100, 2)
 
-logged_laser_pulses(logger, opto_serial, 2, 4, 3000)
+logged_laser_pulses(logger, opto_serial, 2, 4, 150000)
 logger.log_string("Opto pulses sent")
 
 # close the serial port:
