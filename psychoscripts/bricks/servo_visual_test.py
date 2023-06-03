@@ -26,11 +26,11 @@ class LaserStimulationParams:
 class ExpParams:
     servo_contact_position: int = 163  # loom position to contact whiskers
     servo_distant_position: int = 155  # loom position to avoid contact with  whiskers
-    proximity_duration_ms: int = 20000  # Time of position hold by the 3D stimulus
+    proximity_duration_ms: int = 1000  # Time of position hold by the 3D stimulus
     pre_stimulus_laser_ms: int = 500  # Time laser is on before stimulus onset
     fraction_laser_on: float = 0.5  # Fraction of stimuli during which the laser is on
-    n_looms: int = 10  # Number of looming stimuli for each final position
-    between_looms_pause_s: int = 40  # Pause between looming stimuli
+    n_looms: int = 1  # Number of looming stimuli for each final position
+    between_looms_pause_s: int = 4  # Pause between looming stimuli
 
 
 window = get_default_psychopy_win()
@@ -71,7 +71,6 @@ print(sum([trial["trial_type"] == "laser_only" for trial in servo_trials]))
 print(sum([trial["trial_type"] == "servo" for trial in servo_trials]))
 print(len(servo_trials))
 
-np.random.shuffle(servo_trials)
 print(servo_trials)
 
 
@@ -106,8 +105,8 @@ def _update_monitor():
 
 trial_clock = core.Clock()
 logger.log_string("Started servo_looming script")
-for i, trial in enumerate(servo_trials):
-    print(i, trial)
+for trial in servo_trials:
+    print(trial)
     logger.log_string("Trial: " + str(trial))
 
     if trial["laser"]:

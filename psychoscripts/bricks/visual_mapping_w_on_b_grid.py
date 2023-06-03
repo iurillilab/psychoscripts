@@ -20,7 +20,7 @@ class LaserStimulationParams:
 
 @dataclass
 class ExpParams:
-    n_reps: int = 5
+    n_reps: int = 10
     grid_n: int = 6
     stimulus_duration_s: float = 0.5
 
@@ -32,7 +32,6 @@ sleep(defaults.SERIAL_CONN_PAUSE_S)  #  wait for serial connection to be establi
 window = get_default_psychopy_win()
 data_logger = PsychopyLogger()
 corner_logger = CornerLogger(window, data_logger)
-
 
 
 # Draw the stimuli and update the window

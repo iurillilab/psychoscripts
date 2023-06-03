@@ -12,7 +12,7 @@ try:
     MOUSE_ID = os.environ["MOUSE_ID"]
 except KeyError:
     warnings.warn("No mouse ID set in the environment!", RuntimeWarning)
-    MOUSE_ID = "M1"  # "no_mouse_id"
+    MOUSE_ID = "M5"  # "no_mouse_id"
 
 # Corner logging:
 HEADER_PULSES_N = 10
@@ -43,7 +43,7 @@ MOTION_SPEED_DEG_S = 1000 / SERVO_DEFAULT_MS_PER_DEG
 
 # Setup geometry
 SERVO_RADIUS_CM = 15
-HEAD_SERVO_CENTER_CM = 17
+HEAD_SERVO_CENTER_CM = 18
 SERVO_BALL_SIZE_CM = 3
 SERVO_CENTER_ANGLE_DEG = 25
 SERVO_Y_POS_ANGLE_DEG = -8

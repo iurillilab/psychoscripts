@@ -8,7 +8,8 @@ int pulsePin = 9;
 void setup() {
   //start USB connection with the computer
   Serial.begin(9600);
-
+  pinMode(pulsePin, OUTPUT);
+  digitalWrite(pulsePin, LOW);
 }
 
 void loop() {

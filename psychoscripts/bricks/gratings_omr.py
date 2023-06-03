@@ -13,9 +13,9 @@ from psychoscripts.utils.logging import CornerLogger, PsychopyLogger
 @dataclass
 class GratingsParams:
     n_reps: int = 4
-    spatial_freq: float = 0.2
-    speed_deg_s: float = 2
-    drifting_time: float = 60.0
+    spatial_freq: float = 0.02
+    speed_deg_s: float = 1
+    drifting_time: float = 20.0
 
 window = get_default_psychopy_win()
 logger = PsychopyLogger()
@@ -30,7 +30,8 @@ grating1 = visual.GratingStim(
 
 trialClock = core.Clock()
 
-for _ in range(GratingsParams.n_reps):
+for i in range(GratingsParams.n_reps):
+    print(i)
     for direction in [1, -1]:
         corner_logger.toggle_state()
         trialClock.reset()
