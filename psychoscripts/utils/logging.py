@@ -117,6 +117,7 @@ class CornerLogger:
         self.refresh()
         for i in range(defaults.HEADER_PULSES_N * 2):
             self._internal_toggle_state()
+            sleep(defaults.LOGGING_BAR_DT_MS / 1000)
 
     def log_string(self, stimname: str) -> None:
         """Log the stimulus name by flickering the square."""
@@ -126,6 +127,7 @@ class CornerLogger:
             for bit in bitsequence:
                 self.state = bit
                 self.refresh()
+                sleep(defaults.LOGGING_BAR_DT_MS / 1000)
 
             self._header_flicker()
             sleep(defaults.AFTER_LOGGING_PAUSE_MS / 1000)

@@ -12,15 +12,16 @@ try:
     MOUSE_ID = os.environ["MOUSE_ID"]
 except KeyError:
     warnings.warn("No mouse ID set in the environment!", RuntimeWarning)
-    MOUSE_ID = "M5"  # "no_mouse_id"
+    MOUSE_ID = "M11"  # "no_mouse_id"
 
 # Corner logging:
-HEADER_PULSES_N = 10
+HEADER_PULSES_N = 5
 CORNER_COLORS = {False: (-1, -1, -1), True: (1, 1, 1)}
 CORNER_SQUARE_SIZE = (0.2, 0.2)
 CORNER_SQUARE_POS = (0.8, -0.75)
-N_REPS_LOGGING = 2
+N_REPS_LOGGING = 1
 AFTER_LOGGING_PAUSE_MS = 100
+LOGGING_BAR_DT_MS = 100
 
 # Visual stimuli:
 MONITOR = "BENQ"

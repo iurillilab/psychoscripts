@@ -12,10 +12,6 @@ from psychoscripts.utils.servo_arduino import logged_move_piezo
 
 from psychoscripts.utils.visual_screen import get_default_psychopy_win
 
-#@dataclass
-#class VisualStimulationParams:
-    #ci
-
 @dataclass
 class LaserStimulationParams:
     pulse_duration_ms: int = 10  # Duration of the laser pulse
@@ -42,7 +38,7 @@ servo_serial = serial.Serial(defaults.SERIAL_PORT_SERVO, defaults.BOUD_RATE)
 # sleep(defaults.SERIAL_CONN_PAUSE_S)
 
 opto_serial = serial.Serial(defaults.SERIAL_PORT_OPTO, defaults.BOUD_RATE)
-sleep(defaults.SERIAL_CONN_PAUSE_S)  #  wait for serial connection to be established
+sleep(defaults.SERIAL_CONN_PAUSE_S)  # wait for serial connection to be established
 
 circle = visual.Circle(window, color=(-1, -1, -1))
 # move_piezo(servo_serial, 100, 2)
@@ -173,8 +169,6 @@ for i, trial in enumerate(servo_trials):
         _update_monitor()
 
     sleep(ExpParams.between_looms_pause_s)
-
-# move_piezo(servo_serial, ExpParams.servo_distant_position, ExpParams.servo_looming_speed_ms, 1000)
 
 # close the serial ports:
 servo_serial.close()
