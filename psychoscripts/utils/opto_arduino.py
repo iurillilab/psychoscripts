@@ -1,15 +1,17 @@
 """Control the generation of periodic TTL pulses for optogenetic stimulation.
 Arduino firmware required:
 
-// Arduino_controlled_LASER_Stimulation
-
 int pulsePin = 9;
+int logLedPin = 8;
 
 void setup() {
   //start USB connection with the computer
   Serial.begin(9600);
   pinMode(pulsePin, OUTPUT);
   digitalWrite(pulsePin, LOW);
+
+  pinMode(logLedPin, OUTPUT);
+  digitalWrite(logLedPin, LOW);
 }
 
 void loop() {
@@ -32,11 +34,13 @@ void loop() {
       while((millis() - startTime) <= stimulusDurationMs){
       // Laser ON
       digitalWrite(pulsePin, HIGH);
+      digitalWrite(logLedPin, HIGH);
       delay(pulseDurationMs);
 
       digitalWrite(pulsePin, LOW);
       delay(durationOff);
       }
+      digitalWrite(logLedPin, LOW);
     }
   }
 }
